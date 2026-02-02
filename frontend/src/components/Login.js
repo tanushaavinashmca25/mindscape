@@ -29,7 +29,7 @@ const Login = ({ setAuthToken }) => {
       localStorage.setItem('role', res.data.role);
       localStorage.setItem('userId', res.data.userId);
       setAuthToken(res.data.token); // Update the auth state so Navbar re-renders
-      navigate('/dashboard'); // Redirect to the dashboard after successful login
+       window.location.href = '/dashboard';// Redirect to the dashboard after successful login
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     }
