@@ -22,7 +22,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.get("/", (req, res) => {
+  res.send("Mindscape backend is running");
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
