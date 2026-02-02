@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FiUser, FiLock, FiLogIn } from 'react-icons/fi';
 import Message from './Message';
 
-const Login = ({ setAuthToken }) => {
+const Login = ({ setAuthToken , setRole }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,19 +21,28 @@ const Login = ({ setAuthToken }) => {
     }
   }, [location, navigate]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post('https://mindscape-ghx1.onrender.com/api/auth/login', { username, password });
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.role);
-      localStorage.setItem('userId', res.data.userId);
-      setAuthToken(res.data.token); // Update the auth state so Navbar re-renders
-       window.location.href = '/dashboard';// Redirect to the dashboard after successful login
-    } catch (err) {
-      setError(err.response?.data?.error || 'Login failed');
-    }
-  };
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      'https://mindscape-ghx1.onrender.com/api/auth/login',
+      { username, password }
+    );
+
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('role', res.data.role);
+    localStorage.setItem('userId', res.data.userId);
+
+    setAuthToken(res.data.token);
+    setRole(res.data.role);
+
+    navigate('/dashboard');
+
+  } catch (err) {
+    setError(err.response?.data?.error || 'Login failed');
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-400 to-indigo-600 flex items-center justify-center p-4">

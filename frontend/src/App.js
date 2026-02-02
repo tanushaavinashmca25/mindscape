@@ -15,7 +15,8 @@ import { PomodoroProvider } from './components/PomodoroContext';
 
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('token'));
-  const role = localStorage.getItem('role');
+  const [role, setRole] = useState(localStorage.getItem('role'));
+
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -23,7 +24,7 @@ function App() {
         {authToken && <Navbar setAuthToken={setAuthToken} />}
 
         <Routes>
-          <Route path="/login" element={<Login setAuthToken={setAuthToken} />} />
+          <Route path="/login" element={<Login setAuthToken={setAuthToken} setRole={setRole} />} />
           <Route path="/register" element={<Register />} />
 
           {/* Teacher */}
