@@ -55,7 +55,7 @@ const UploadSection = ({ courseId, onUploaded }) => {
 
     try {
       const res = await axios.post(
-        `http://localhost:5001/api/teacher/courses/${courseId}/lecture`,
+        `https://mindscape-1-2fsq.onrender.com/api/teacher/courses/${courseId}/lecture`,
         formData,
         {
           headers: {
@@ -89,7 +89,7 @@ const UploadSection = ({ courseId, onUploaded }) => {
 
     try {
       const res = await axios.post(
-        `http://localhost:5001/api/teacher/courses/${courseId}/note`,
+        `https://mindscape-1-2fsq.onrender.com/api/teacher/courses/${courseId}/note`,
         formData,
         {
           headers: {
@@ -228,10 +228,10 @@ const ContentsSection = ({ courseId }) => {
     const fetchUploads = async () => {
       try {
         const [lecturesRes, notesRes] = await Promise.all([
-          axios.get(`http://localhost:5001/api/teacher/courses/${courseId}/lectures`, {
+          axios.get(`https://mindscape-1-2fsq.onrender.com/api/teacher/courses/${courseId}/lectures`, {
             headers: { authorization: token },
           }),
-          axios.get(`http://localhost:5001/api/teacher/courses/${courseId}/notes`, {
+          axios.get(`https://mindscape-1-2fsq.onrender.com/api/teacher/courses/${courseId}/notes`, {
             headers: { authorization: token },
           }),
         ]);
@@ -271,7 +271,7 @@ const ContentsSection = ({ courseId }) => {
                   </div>
 
                   <a
-                    href={`http://localhost:5001${lec.video_path}`}
+                    href={`https://mindscape-1-2fsq.onrender.com${lec.video_path}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-blue-600 hover:text-blue-700"
@@ -306,7 +306,7 @@ const ContentsSection = ({ courseId }) => {
                   </div>
 
                   <a
-                    href={`http://localhost:5001${note.file_path}`}
+                    href={`https://mindscape-1-2fsq.onrender.com${note.file_path}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-green-600 hover:text-green-700"
@@ -382,7 +382,7 @@ const TeacherDashboard = () => {
 
   const fetchTeacherInfo = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/teacher/info', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/teacher/info', {
         headers: { authorization: token },
       });
       setTeacherName(res.data.name);
@@ -393,7 +393,7 @@ const TeacherDashboard = () => {
 
   const fetchCourses = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/teacher/courses', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/teacher/courses', {
         headers: { authorization: token },
       });
       setCourses(res.data.courses || []);
@@ -411,7 +411,7 @@ const TeacherDashboard = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5001/api/teacher/courses/${selectedCourse.id}/students`,
+        `https://mindscape-1-2fsq.onrender.com/api/teacher/courses/${selectedCourse.id}/students`,
         {
           headers: { authorization: token },
         }
@@ -425,7 +425,7 @@ const TeacherDashboard = () => {
   const fetchEnrollmentRequests = async () => {
     try {
       const res = await axios.get(
-        'http://localhost:5001/api/teacher/enrollment-requests',
+        'https://mindscape-1-2fsq.onrender.com/api/teacher/enrollment-requests',
         {
           headers: { authorization: token },
         }
@@ -440,7 +440,7 @@ const TeacherDashboard = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `http://localhost:5001/api/teacher/enrollment-requests/${requestId}`,
+        `https://mindscape-1-2fsq.onrender.com/api/teacher/enrollment-requests/${requestId}`,
         { status },
         { headers: { authorization: token } }
       );

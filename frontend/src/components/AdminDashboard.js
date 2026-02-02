@@ -44,7 +44,7 @@ const AdminDashboard = () => {
 
   const fetchTeachers = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/admin/teachers', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/admin/teachers', {
         headers: { authorization: token },
       });
       setTeachers(res.data.teachers);
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
 
   const fetchStudents = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/admin/students', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/admin/students', {
         headers: { authorization: token },
       });
       setStudents(res.data.students);
@@ -73,7 +73,7 @@ const AdminDashboard = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5001/api/admin/user/${userId}`, {
+      await axios.delete(`https://mindscape-1-2fsq.onrender.com/api/admin/user/${userId}`, {
         headers: { authorization: token },
       });
       setMessage('User deleted successfully');
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
       if (userType !== 'teacher') {
         delete payload.courses;
       }
-      await axios.post('http://localhost:5001/api/admin/user', payload, {
+      await axios.post('https://mindscape-1-2fsq.onrender.com/api/admin/user', payload, {
         headers: { authorization: token },
       });
       setMessage('User added successfully');

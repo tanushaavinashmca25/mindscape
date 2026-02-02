@@ -32,7 +32,7 @@ const PDFViewerAdvanced = ({ filePath }) => {
     
     const loadPDF = async () => {
       try {
-        const loadingTask = pdfjsLib.getDocument(`http://localhost:5001${filePath}`);
+        const loadingTask = pdfjsLib.getDocument(`https://mindscape-1-2fsq.onrender.com${filePath}`);
         const pdfDocument = await loadingTask.promise;
         
         if (isMounted) {
@@ -187,7 +187,7 @@ const PDFViewerAdvanced = ({ filePath }) => {
 
   // Handle download
   const handleDownload = () => {
-    window.open(`http://localhost:5001${filePath}`, '_blank');
+    window.open(`https://mindscape-1-2fsq.onrender.com${filePath}`, '_blank');
   };
 
   return (

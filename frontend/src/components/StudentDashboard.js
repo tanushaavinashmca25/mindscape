@@ -52,7 +52,7 @@ const StudentDashboard = () => {
 
   const fetchStudentInfo = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/student/info', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/student/info', {
         headers: { authorization: token },
       });
       setStudentName(res.data.name);
@@ -64,7 +64,7 @@ const StudentDashboard = () => {
   const fetchAvailableCourses = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5001/api/student/courses', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/student/courses', {
         headers: { authorization: token },
       });
       setAvailableCourses(res.data.courses);
@@ -79,7 +79,7 @@ const StudentDashboard = () => {
   const fetchMyCourses = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5001/api/student/my-courses', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/student/my-courses', {
         headers: { authorization: token },
       });
       setMyCourses(res.data.courses);
@@ -93,7 +93,7 @@ const StudentDashboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/student/leaderboard', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/student/leaderboard', {
         headers: { authorization: token },
       });
       setLeaderboardData(res.data.students);
@@ -104,7 +104,7 @@ const StudentDashboard = () => {
 
   const fetchEnrollmentRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/student/enrollment-requests', {
+      const res = await axios.get('https://mindscape-1-2fsq.onrender.com/api/student/enrollment-requests', {
         headers: { authorization: token },
       });
       setEnrollmentRequests(res.data.requests);
@@ -117,7 +117,7 @@ const StudentDashboard = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://localhost:5001/api/student/courses/register',
+        'https://mindscape-1-2fsq.onrender.com/api/student/courses/register',
         { courseId },
         { headers: { authorization: token } }
       );
@@ -135,7 +135,7 @@ const StudentDashboard = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://localhost:5001/api/student/courses/drop',
+        'https://mindscape-1-2fsq.onrender.com/api/student/courses/drop',
         { courseId },
         { headers: { authorization: token } }
       );
@@ -157,7 +157,7 @@ const StudentDashboard = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `http://localhost:5001/api/student/courses/${courseId}/watch`,
+        `https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}/watch`,
         {},
         { headers: { authorization: token } }
       );
@@ -410,7 +410,7 @@ const StudentDashboard = () => {
                           <p className="text-sm text-gray-500">{new Date(lec.upload_date).toLocaleDateString()}</p>
                         </div>
                         <a
-                          href={`http://localhost:5001${lec.video_path}`}
+                          href={`https://mindscape-1-2fsq.onrender.com${lec.video_path}`}
                           target="_blank"
                           rel="noreferrer"
                           className="text-blue-600 hover:text-blue-700 flex items-center"
@@ -431,7 +431,7 @@ const StudentDashboard = () => {
                           <p className="text-sm text-gray-500">{new Date(note.upload_date).toLocaleDateString()}</p>
                         </div>
                         <a
-                          href={`http://localhost:5001${note.file_path}`}
+                          href={`https://mindscape-1-2fsq.onrender.com${note.file_path}`}
                           target="_blank"
                           rel="noreferrer"
                           className="text-blue-600 hover:text-blue-700 flex items-center"

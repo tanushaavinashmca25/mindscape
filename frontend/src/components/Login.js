@@ -24,7 +24,7 @@ const Login = ({ setAuthToken }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/login', { username, password });
+      const res = await axios.post('https://mindscape-1-2fsq.onrender.com/api/auth/login', { username, password });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.role);
       localStorage.setItem('userId', res.data.userId);
