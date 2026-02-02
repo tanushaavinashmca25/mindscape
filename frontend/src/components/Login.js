@@ -48,7 +48,7 @@ const Login = ({ setAuthToken, setRole }) => {
       <div className="hidden md:flex items-center justify-center bg-gradient-to-br from-purple-600 to-indigo-700 text-white p-10">
         <div className="text-center max-w-md">
           <img
-            src="https://images.unsplash.com/photo-1584697964403-8c5fbc0b82b3"
+            src="https://www.shutterstock.com/image-vector/two-students-studying-using-books-260nw-2613213689.jpg"
             alt="Learning"
             className="rounded-xl shadow-lg mb-8"
           />
