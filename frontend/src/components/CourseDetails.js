@@ -76,10 +76,10 @@ const CourseDetails = () => {
   const fetchCourseDetails = async () => {
     try {
       const [courseRes, detailsRes] = await Promise.all([
-        axios.get(`https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}`, {
+        axios.get(`https://mindscape-ghx1.onrender.com/api/student/courses/${courseId}`, {
           headers: { authorization: token },
         }),
-        axios.get(`https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}/details`, {
+        axios.get(`https://mindscape-ghx1.onrender.com/api/student/courses/${courseId}/details`, {
           headers: { authorization: token },
         }),
       ]);
@@ -97,7 +97,7 @@ const CourseDetails = () => {
   const fetchClassmates = async () => {
     try {
       const res = await axios.get(
-        `https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}/students`,
+        `https://mindscape-ghx1.onrender.com/api/student/courses/${courseId}/students`,
         { headers: { authorization: token } }
       );
       setClassmates(res.data.students || []);
@@ -109,7 +109,7 @@ const CourseDetails = () => {
   const fetchWatchProgress = async () => {
     try {
       const res = await axios.get(
-        `https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}/progress`,
+        `https://mindscape-ghx1.onrender.com/api/student/courses/${courseId}/progress`,
         { headers: { authorization: token } }
       );
 
@@ -127,7 +127,7 @@ const CourseDetails = () => {
   const fetchNoteProgress = async () => {
     try {
       const res = await axios.get(
-        `https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}/note-progress`,
+        `https://mindscape-ghx1.onrender.com/api/student/courses/${courseId}/note-progress`,
         { headers: { authorization: token } }
       );
 
@@ -150,7 +150,7 @@ const CourseDetails = () => {
           : progress;
 
       await axios.post(
-        `https://mindscape-1-2fsq.onrender.com/api/student/lectures/${lectureId}/progress`,
+        `https://mindscape-ghx1.onrender.com/api/student/lectures/${lectureId}/progress`,
         { progress: newProgress },
         { headers: { authorization: token } }
       );
@@ -167,7 +167,7 @@ const CourseDetails = () => {
   const markWatch = async () => {
     try {
       const res = await axios.post(
-        `https://mindscape-1-2fsq.onrender.com/api/student/courses/${courseId}/watch`,
+        `https://mindscape-ghx1.onrender.com/api/student/courses/${courseId}/watch`,
         {},
         { headers: { authorization: token } }
       );
@@ -184,7 +184,7 @@ const CourseDetails = () => {
   const markNoteAsViewed = async (noteId) => {
     try {
       await axios.post(
-        `https://mindscape-1-2fsq.onrender.com/api/student/notes/${noteId}/view`,
+        `https://mindscape-ghx1.onrender.com/api/student/notes/${noteId}/view`,
         {},
         { headers: { authorization: token } }
       );
@@ -317,7 +317,7 @@ const CourseDetails = () => {
                         This document is available for download only.
                       </p>
                       <a
-                        href={`https://mindscape-1-2fsq.onrender.com${selectedNote.file_path}`}
+                        href={`https://mindscape-ghx1.onrender.com${selectedNote.file_path}`}
                         download
                         className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-flex items-center"
                       >

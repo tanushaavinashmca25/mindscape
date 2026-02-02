@@ -31,7 +31,7 @@ const VideoPlayer = ({ lecture, onProgress }) => {
   return (
     <div className="player-wrapper">
       <ReactPlayer
-        url={`https://mindscape-1-2fsq.onrender.com${lecture.video_path}`}
+        url={`https://mindscape-ghx1.onrender.com${lecture.video_path}`}
         width="100%"
         height="100%"
         controls
