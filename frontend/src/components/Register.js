@@ -36,7 +36,7 @@ const handleRegister = async (e) => {
     payload.courses = courses.filter(course => course.trim() !== '');
   }
   try {
-    await axios.post('https://mindscape-1-2fsq.onrender.com/api/auth/register', payload);
+    await axios.post('https://mindscape-ghx1.onrender.com/api/auth/register', payload);
     navigate('/login', {
       state: { 
         successMessage: 'Account created successfully! Please login.' 
