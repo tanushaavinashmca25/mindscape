@@ -101,7 +101,7 @@ const CourseDetails = () => {
     });
 
     const map = {};
-    res.data.progress.forEach(p => {
+    res.data(progress || []).forEach(p => {
       map[p.lecture_id] = p.progress || 0;
     });
     setWatchProgress(map);
@@ -113,7 +113,7 @@ const CourseDetails = () => {
     });
 
     const map = {};
-    res.data.progress.forEach(p => {
+    res.data(progress || []).forEach(p => {
       map[p.note_id] = p.viewed || 0;
     });
     setNoteProgress(map);
@@ -160,11 +160,9 @@ const CourseDetails = () => {
   if (loading) return <div className="p-8">Loading...</div>;
   if (!course) return <div className="p-8">Course not found</div>;
 
-  return (
-  <div className="flex flex-col min-h-screen">
-
-    <div className="flex-grow container mx-auto px-4 py-8">
-
+ 
+    return (
+    <div className="container mx-auto px-4 py-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 flex justify-between items-center">
           <button
@@ -177,22 +175,15 @@ const CourseDetails = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-          {/* MAIN CONTENT */}
+          {/* Main Content */}
           <div className="lg:col-span-3 space-y-6">
-
             {/* Course Header */}
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-800">
-                    {course.title}
-                  </h1>
-                  <p className="text-gray-600">
-                    Taught by {course.teacherName}
-                  </p>
+                  <h1 className="text-2xl font-bold text-gray-800">{course.title}</h1>
+                  <p className="text-gray-600">Taught by {course.teacherName}</p>
                 </div>
-
                 <div className="bg-blue-50 px-4 py-2 rounded-lg">
                   <span className="text-blue-600 font-semibold">
                     Streak: {course.streak} 🔥
@@ -201,41 +192,78 @@ const CourseDetails = () => {
               </div>
             </div>
 
-            {/* Selected Lecture Player */}
+            {/* Video Player */}
             {selectedLecture && (
               <div className="bg-white rounded-xl p-6 shadow-sm">
-                <h2 className="text-xl font-semibold mb-4">
-                  {selectedLecture.title}
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">{selectedLecture.title}</h2>
 
                 <div className="rounded-lg overflow-hidden">
                   <VideoPlayer
                     lecture={selectedLecture}
-                    onProgress={(state) =>
-                      handleVideoProgress(state, selectedLecture.id)
-                    }
+                    onProgress={(state) => handleVideoProgress(state, selectedLecture.id)}
                   />
                 </div>
 
                 <div className="mt-4 text-sm text-gray-500 flex items-center">
                   <FiClock className="mr-1" />
-                  {new Date(
-                    selectedLecture.upload_date
-                  ).toLocaleDateString()}
+                  {new Date(selectedLecture.upload_date).toLocaleDateString()}
 
                   {watchProgress[selectedLecture.id] >= 0.75 && (
                     <div className="ml-4 text-green-600 flex items-center">
-                      <FiCheck className="mr-2" />
-                      Marked as watched
+                      <FiCheck className="mr-2" /> Marked as watched
                     </div>
                   )}
                 </div>
               </div>
             )}
 
-            {/* Course Tabs */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
+            {/* PDF Viewer */}
+            {selectedNote && (
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold">{selectedNote.title}</h2>
+                  <button
+                    onClick={() => setSelectedNote(null)}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 flex items-center"
+                  >
+                    <FiXCircle className="mr-2" /> Close
+                  </button>
+                </div>
 
+                {isPDF(selectedNote.file_path) ? (
+                  <div className="rounded-lg overflow-hidden">
+                    <PDFViewerAdvanced filePath={selectedNote.file_path} />
+                  </div>
+                ) : (
+                  <div className="text-center py-16 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="max-w-md mx-auto">
+                      <FiFileText className="text-blue-500 text-5xl mx-auto mb-4" />
+                      <h3 className="text-xl font-medium text-gray-800 mb-2">
+                        This file type can't be previewed
+                      </h3>
+                      <p className="text-gray-600 mb-6">
+                        This document is available for download only.
+                      </p>
+                      <a
+                        href={`https://mindscape-ghx1.onrender.com${selectedNote.file_path}`}
+                        download
+                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 inline-flex items-center"
+                      >
+                        <FiDownload className="mr-2" /> Download File
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-4 text-sm text-gray-500 flex items-center">
+                  <FiClock className="mr-1" />
+                  {new Date(selectedNote.upload_date).toLocaleDateString()}
+                </div>
+              </div>
+            )}
+
+            {/* Course Content Tabs */}
+            <div className="bg-white rounded-xl p-6 shadow-sm">
               <div className="flex space-x-4 border-b mb-4">
                 <button
                   onClick={() => setActiveTab('lectures')}
@@ -272,29 +300,36 @@ const CourseDetails = () => {
               </div>
 
               {message && (
-                <Message
-                  type={message.includes('Error') ? 'error' : 'success'}
-                >
+                <Message type={message.includes('Error') ? 'error' : 'success'}>
                   {message}
                 </Message>
               )}
 
-              {/* Lectures List */}
+              {/* Lectures */}
               {activeTab === 'lectures' && (
                 <div className="space-y-4">
                   {course.lectures.map((lec) => (
                     <div
                       key={lec.id}
-                      className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+                      className={`bg-gray-50 p-4 rounded-lg border hover:border-blue-200 transition-colors ${
+                        watchProgress[lec.id] >= 0.75 ? 'border-green-300' : 'border-gray-200'
+                      }`}
                     >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h4 className="font-medium">{lec.title}</h4>
-                          <p className="text-sm text-gray-500">
-                            {new Date(
-                              lec.upload_date
-                            ).toLocaleDateString()}
-                          </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <FiVideo className="text-blue-500 mr-3 text-xl" />
+                          <div>
+                            <h4 className="font-medium text-gray-800 flex items-center">
+                              {lec.title}
+                              {watchProgress[lec.id] >= 0.75 && (
+                                <FiCheck className="ml-2 text-green-600" />
+                              )}
+                            </h4>
+                            <p className="text-sm text-gray-500 flex items-center">
+                              <FiClock className="mr-1" />
+                              {new Date(lec.upload_date).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
 
                         <button
@@ -302,9 +337,56 @@ const CourseDetails = () => {
                             setSelectedLecture(lec);
                             setSelectedNote(null);
                           }}
-                          className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200"
+                          className={`px-4 py-2 rounded-lg flex items-center ${
+                            selectedLecture && selectedLecture.id === lec.id
+                              ? 'bg-blue-200 text-blue-800'
+                              : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                          }`}
                         >
-                          Watch
+                          <FiVideo className="mr-2" /> Watch
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Notes */}
+              {activeTab === 'notes' && (
+                <div className="space-y-4">
+                  {course.notes.map((note) => (
+                    <div
+                      key={note.id}
+                      className={`bg-gray-50 p-4 rounded-lg border hover:border-blue-200 transition-colors ${
+                        noteProgress[note.id] ? 'border-green-300' : 'border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <FiFileText className="text-blue-500 mr-3 text-xl" />
+                          <div>
+                            <h4 className="font-medium text-gray-800 flex items-center">
+                              {note.title}
+                              {noteProgress[note.id] && (
+                                <FiCheck className="ml-2 text-green-600" />
+                              )}
+                            </h4>
+                            <p className="text-sm text-gray-500 flex items-center">
+                              <FiClock className="mr-1" />
+                              {new Date(note.upload_date).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+
+                        <button
+                          onClick={() => handleNoteView(note)}
+                          className={`px-4 py-2 rounded-lg flex items-center ${
+                            selectedNote && selectedNote.id === note.id
+                              ? 'bg-blue-200 text-blue-800'
+                              : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                          }`}
+                        >
+                          <FiFileText className="mr-2" /> View
                         </button>
                       </div>
                     </div>
@@ -315,58 +397,92 @@ const CourseDetails = () => {
               {/* Classmates */}
               {activeTab === 'classmates' && (
                 <div className="space-y-4">
-                  {classmates.map((student) => (
-                    <div
-                      key={student.id}
-                      className="p-4 rounded-lg border bg-gray-50"
-                    >
-                      <div className="flex justify-between">
-                        <p className="font-medium">{student.name}</p>
-                        <div>
-                          {student.streak} 🔥
+                  {classmates.length === 0 ? (
+                    <p className="text-gray-500 text-center py-4">
+                      No other students enrolled
+                    </p>
+                  ) : (
+                    classmates.map((student) => (
+                      <div
+                        key={student.id}
+                        className={`p-4 rounded-lg border ${
+                          student.id === currentStudentId
+                            ? 'bg-blue-50 border-blue-200'
+                            : 'bg-gray-50 border-gray-200'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="font-medium text-gray-800">
+                              {student.name}
+                              {student.id === currentStudentId && (
+                                <span className="ml-2 text-sm text-blue-600">(You)</span>
+                              )}
+                            </p>
+                            <p className="text-sm text-gray-500">Current Course Streak</p>
+                          </div>
+
+                          <div className="flex items-center">
+                            <span className="text-orange-600 font-semibold">
+                              {student.streak}
+                            </span>
+                            <span className="ml-1">🔥</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               )}
-
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-white rounded-xl p-6 shadow-sm">
-              <SectionHeader
-                icon={<FiUsers className="text-green-500" />}
-                title="Classmates"
-              />
-
+              <SectionHeader icon={<FiUsers className="text-green-500" />} title="Classmates" />
               <div className="space-y-4">
-                {classmates.map((student) => (
-                  <div
-                    key={student.id}
-                    className="p-4 rounded-lg border bg-gray-50"
-                  >
-                    <div className="flex justify-between">
-                      <p className="font-medium">{student.name}</p>
-                      <div>{student.streak} 🔥</div>
+                {classmates.length === 0 ? (
+                  <p className="text-gray-500 text-center py-4">No other students enrolled</p>
+                ) : (
+                  classmates.map((student) => (
+                    <div
+                      key={student.id}
+                      className={`p-4 rounded-lg border ${
+                        student.id === currentStudentId
+                          ? 'bg-blue-50 border-blue-200'
+                          : 'bg-gray-50 border-gray-200'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium text-gray-800">
+                            {student.name}
+                            {student.id === currentStudentId && (
+                              <span className="ml-2 text-sm text-blue-600">(You)</span>
+                            )}
+                          </p>
+                          <p className="text-sm text-gray-500">Current Course Streak</p>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-orange-600 font-semibold">{student.streak}</span>
+                          <span className="ml-1">🔥</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
+      <Footer />
+
     </div>
-
-    <Footer />
-
-  </div>
-);
+  );
 };
 
 export default CourseDetails;
+
+
