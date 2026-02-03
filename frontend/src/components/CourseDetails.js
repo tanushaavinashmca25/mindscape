@@ -74,7 +74,13 @@ const CourseDetails = () => {
       axios.get(`/api/student/courses/${courseId}/details`, { headers: { authorization: token } }),
     ]);
 
-    setCourse({ ...courseRes.data.course, ...detailsRes.data });
+   setCourse({
+  ...courseRes.data.course,
+  lectures: detailsRes.data.lectures || [],
+  notes: detailsRes.data.notes || [],
+  streak: detailsRes.data.streak || 0,
+});
+
     setCurrentStudentId(detailsRes.data.studentId);
     setLoading(false);
   };
