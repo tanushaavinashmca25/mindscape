@@ -298,16 +298,20 @@ router.post('/lectures/:lectureId/progress', verifyToken, isStudent, (req, res) 
       if (err) return res.status(500).json({ error: 'Error checking progress' });
 
       if (row) {
-        // Update existing progress
-        db.run(
-          'UPDATE lecture_watch_progress SET progress = ?, last_watched_at = ? WHERE student_id = ? AND lecture_id = ?',
-          [progress, lastWatchedAt, studentId, lectureId],
-          (err) => {
-            if (err) return res.status(500).json({ error: 'Error updating progress' });
-            res.json({ message: 'Progress updated successfully' });
-          }
-        );
-      } else {
+  // Update ONLY if progress increased
+  if (progress > row.progress) {
+    db.run(
+      'UPDATE lecture_watch_progress SET progress = ?, last_watched_at = ? WHERE student_id = ? AND lecture_id = ?',
+      [progress, lastWatchedAt, studentId, lectureId],
+      (err) => {
+        if (err) return res.status(500).json({ error: 'Error updating progress' });
+        res.json({ message: 'Progress updated successfully' });
+      }
+    );
+  } else {
+    res.json({ message: 'Progress unchanged' });
+  }
+} else {
         // Insert new progress
         db.run(
           'INSERT INTO lecture_watch_progress (student_id, lecture_id, progress, last_watched_at) VALUES (?, ?, ?, ?)',
@@ -335,7 +339,15 @@ router.get('/courses/:courseId/progress', verifyToken, isStudent, (req, res) => 
     [studentId, courseId],
     (err, progress) => {
       if (err) return res.status(500).json({ error: 'Error fetching progress' });
-      res.json({ progress });
+      // Clean wrong progress automatically
+const cleaned = progress.map(p => ({
+  lecture_id: p.lecture_id,
+  progress: p.progress >= 0.75 ? p.progress : 0,
+  last_watched_at: p.last_watched_at
+}));
+
+res.json({ progress: cleaned });
+
     }
   );
 });
