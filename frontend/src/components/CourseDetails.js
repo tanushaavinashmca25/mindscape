@@ -172,7 +172,7 @@ const CourseDetails = () => {
         {},
         { headers: { authorization: token } }
       );
-
+ console.log("WATCH RESPONSE:", res.data); 
       setMessage(res.data.message || 'Marked as watched');
       fetchCourseDetails();
       fetchClassmates();
@@ -209,7 +209,7 @@ const CourseDetails = () => {
     if (
       duration > 0 &&
       accumulated >= 0.75 * duration &&
-      (!watchProgress[lectureId] || watchProgress[lectureId] < 0.75)
+      watchProgress[lectureId] < 0.75
     ) {
       markWatch();
       console.log(
