@@ -4,7 +4,7 @@ const db = require('../database');
 const multer = require('multer');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs');
 const JWT_SECRET = 'your_jwt_secret';
 
 // Middleware to verify JWT and that the user is a teacher
@@ -26,12 +26,19 @@ function isTeacher(req, res, next) {
 // Set up Multer storage for video uploads
 const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../uploads/lectures'));
+    const uploadPath = path.join(__dirname, '../uploads/lectures');
+
+    // create folder if missing
+    fs.mkdirSync(uploadPath, { recursive: true });
+
+    cb(null, uploadPath);
   },
+
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
+
 const videoUpload = multer({
   storage: videoStorage,
   limits: { fileSize: 500 * 1024 * 1024 } // 500MB
@@ -41,13 +48,23 @@ const videoUpload = multer({
 // Set up Multer storage for note uploads
 const noteStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../uploads/notes'));
+    const uploadPath = path.join(__dirname, '../uploads/notes');
+
+    // create folder if missing
+    fs.mkdirSync(uploadPath, { recursive: true });
+
+    cb(null, uploadPath);
   },
+
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
-const noteUpload = multer({ storage: noteStorage });
+
+const noteUpload = multer({
+  storage: noteStorage
+});
+
 
 // Get teacher information
 router.get('/info', verifyToken, isTeacher, (req, res) => {
