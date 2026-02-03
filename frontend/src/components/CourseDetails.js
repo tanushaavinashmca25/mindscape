@@ -73,7 +73,7 @@ const CourseDetails = () => {
       axios.get(`/api/student/courses/${courseId}`, { headers: { authorization: token } }),
       axios.get(`/api/student/courses/${courseId}/details`, { headers: { authorization: token } }),
     ]);
-
+ console.log("DETAILS DATA:", detailsRes.data);
    setCourse({
   ...courseRes.data.course,
   lectures: detailsRes.data.lectures || [],
