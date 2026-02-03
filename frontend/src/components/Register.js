@@ -28,6 +28,10 @@ const Register = () => {
 
 const handleRegister = async (e) => {
   e.preventDefault();
+       if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
   const payload = {
     username,
     name,
@@ -104,6 +108,7 @@ return (
                 placeholder="Your name"
                 className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={name}
+                
                 onChange={(e) => setName(e.target.value)}
                 required
               />
@@ -138,10 +143,16 @@ return (
                 placeholder="Create password"
                 className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 value={password}
+                minLength={6}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-            </div>
+              </div>
+              <p className="text-sm text-gray-500 mt-1">
+  Password must be at least 6 characters.
+</p>
+
+            
           </div>
 
           {isTeacher && (

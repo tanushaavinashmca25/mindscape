@@ -25,10 +25,7 @@ const Login = ({ setAuthToken, setRole }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-     if (password.length < 6) {
-    setError("Password must be at least 6 characters long");
-    return;
-  }
+
     try {
       const res = await axios.post(
         'https://mindscape-ghx1.onrender.com/api/auth/login',
@@ -201,7 +198,7 @@ const Login = ({ setAuthToken, setRole }) => {
             placeholder="Enter password"
             className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
             value={password}
-            minLength={6}
+           
             onChange={(e) => setPassword(e.target.value)}
             required
           />
