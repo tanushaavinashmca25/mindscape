@@ -152,7 +152,7 @@ const StudentDashboard = () => {
   };
 
   const viewCourseDetails = (course) => {
-    navigate(`/course/${course.id}`);
+    navigate(`/course-details/${course.id}`);
   };
 
   const markWatch = async (courseId) => {

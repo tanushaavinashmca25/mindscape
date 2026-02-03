@@ -38,7 +38,8 @@ function App() {
           {authToken && role === 'student' && (
             <>
               <Route path="/dashboard" element={<StudentDashboard />} />
-              <Route path="/course/:courseId" element={<CourseDetails />} />
+              <Route path="/course-details/:courseId" element={<CourseDetails />} />
+
             </>
           )}
 
