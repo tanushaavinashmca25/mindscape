@@ -127,85 +127,60 @@ router.post('/courses/drop', verifyToken, isStudent, (req, res) => {
   );
 });
 
-// Mark a lecture watch (update streak)
 router.post('/courses/:courseId/watch', verifyToken, isStudent, (req, res) => {
   const studentId = req.user.id;
   const courseId = req.params.courseId;
+
   const today = new Date().toISOString().slice(0, 10);
-  
-  // First check if student has watched any course today
+
   db.get(
-    'SELECT watch_date FROM watch_history WHERE student_id = ? AND watch_date = ?',
-    [studentId, today],
+    'SELECT streak, last_watch_date FROM student_courses WHERE student_id = ? AND course_id = ?',
+    [studentId, courseId],
     (err, row) => {
-      if (err) return res.status(500).json({ error: 'Error checking watch history' });
-      
-      // Record watch history
+      if (err || !row) {
+        return res.status(500).json({ error: 'Course record not found' });
+      }
+
+      let newStreak = row.streak || 0;
+
+      // If already watched today → do nothing
+      if (row.last_watch_date === today) {
+        return res.json({
+          message: 'Already watched today',
+          streak: newStreak
+        });
+      }
+
+      if (row.last_watch_date) {
+        const lastDate = new Date(row.last_watch_date);
+        const currentDate = new Date(today);
+
+        const diffDays =
+          (currentDate - lastDate) / (1000 * 60 * 60 * 24);
+
+        if (diffDays === 1) {
+          // Continue streak
+          newStreak += 1;
+        } else {
+          // Missed day → reset
+          newStreak = 1;
+        }
+      } else {
+        // First ever watch
+        newStreak = 1;
+      }
+
       db.run(
-        'INSERT INTO watch_history (student_id, course_id, watch_date) VALUES (?, ?, ?)',
-        [studentId, courseId, today],
+        'UPDATE student_courses SET streak = ?, last_watch_date = ? WHERE student_id = ? AND course_id = ?',
+        [newStreak, today, studentId, courseId],
         function (err) {
-          if (err) return res.status(500).json({ error: 'Error recording watch history' });
-          
-          // Update streak in student_courses table
-          db.get(
-            'SELECT streak, last_watch_date FROM student_courses WHERE student_id = ? AND course_id = ?',
-            [studentId, courseId],
-            (err, row) => {
-              if (err || !row)
-                return res.status(500).json({ error: 'Error updating streak' });
-              let newStreak = 1;
-              if (row.last_watch_date) {
-                const lastDate = new Date(row.last_watch_date);
-                const currentDate = new Date(today);
-                const diffTime = currentDate - lastDate;
-                const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                if (diffDays === 1) {
-                  newStreak = row.streak + 1;
-                }
-              }
-              
-              // Update course-specific streak
-              db.run(
-                'UPDATE student_courses SET streak = ?, last_watch_date = ? WHERE student_id = ? AND course_id = ?',
-                [newStreak, today, studentId, courseId],
-                function (err) {
-                  if (err) return res.status(500).json({ error: 'Error updating streak' });
-                  
-                  // If this is the first course watched today, update all course streaks
-                  if (!row) {
-                    db.all(
-                      'SELECT course_id FROM student_courses WHERE student_id = ?',
-                      [studentId],
-                      (err, courses) => {
-                        if (err) return res.status(500).json({ error: 'Error updating overall streak' });
-                        
-                        // Update streak for all courses
-                        courses.forEach(course => {
-                          db.run(
-                            'UPDATE student_courses SET streak = streak + 1, last_watch_date = ? WHERE student_id = ? AND course_id = ?',
-                            [today, studentId, course.course_id]
-                          );
-                        });
-                        
-                        res.json({ 
-                          message: 'Watch recorded and streak updated', 
-                          streak: newStreak,
-                          overallStreak: newStreak 
-                        });
-                      }
-                    );
-                  } else {
-                    res.json({ 
-                      message: 'Watch recorded and streak updated', 
-                      streak: newStreak,
-                      overallStreak: newStreak 
-                    });
-                  }
-                }
-              );
-            }
-          );
+          if (err)
+            return res.status(500).json({ error: 'Failed to update streak' });
+
+          res.json({
+            message: 'Watch recorded',
+            streak: newStreak
+          });
         }
       );
     }
