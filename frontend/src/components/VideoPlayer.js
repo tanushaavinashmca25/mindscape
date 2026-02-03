@@ -7,26 +7,25 @@ const VideoPlayer = ({ lecture, onProgress }) => {
   const accumulatedWatchTimeRef = useRef(0);
   const SKIP_THRESHOLD = 2; // Maximum allowed seconds difference to consider as continuous playback
 
-  const handleProgress = (state) => {
-    const { playedSeconds } = state;
+const handleProgress = (state) => {
+  const { playedSeconds } = state;
 
-    // Calculate the time difference from the last update
-    if (lastTimeRef.current) {
-      const delta = playedSeconds - lastTimeRef.current;
-      // Only accumulate if delta is small (i.e. not a skip)
-      if (delta > 0 && delta <= SKIP_THRESHOLD) {
-        accumulatedWatchTimeRef.current += delta;
-      }
-    }
-    lastTimeRef.current = playedSeconds;
+  const delta = playedSeconds - lastTimeRef.current;
 
-    // Pass along the playedSeconds, accumulated watch time, and total duration
-    onProgress({
-      playedSeconds,
-      accumulated: accumulatedWatchTimeRef.current,
-      duration,
-    });
-  };
+  // accumulate only forward play
+  if (delta > 0) {
+    accumulatedWatchTimeRef.current += delta;
+  }
+
+  lastTimeRef.current = playedSeconds;
+
+  onProgress({
+    playedSeconds,
+    accumulated: accumulatedWatchTimeRef.current,
+    duration,
+  });
+};
+
 
   return (
     <div className="player-wrapper">
