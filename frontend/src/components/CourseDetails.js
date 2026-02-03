@@ -93,9 +93,12 @@ const CourseDetails = () => {
       ]);
 
       setCourse({
-        ...courseRes.data.course,
-        ...detailsRes.data,
-      });
+  ...courseRes.data.course,
+  lectures: detailsRes.data.lectures || [],
+  notes: detailsRes.data.notes || [],
+  streak: detailsRes.data.streak || 0,
+});
+
 
       setCurrentStudentId(detailsRes.data.studentId);
     } catch (err) {
