@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FiUser, FiLock, FiBook, FiPlusCircle, FiLogIn } from 'react-icons/fi';
 import Message from './Message';
+import Footer from "./Footer";
+
 
 const Register = () => {
   const [isTeacher, setIsTeacher] = useState(false);
@@ -47,9 +49,13 @@ const handleRegister = async (e) => {
   }
 };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-700 to-blue-400 flex items-center justify-center p-4">
+return (
+  <div className="flex flex-col min-h-screen">
+
+    <div className="flex-grow flex items-center justify-center px-4 py-8">
+
       <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
+
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center justify-center">
             <FiUser className="mr-2 text-blue-500" />
@@ -183,7 +189,10 @@ const handleRegister = async (e) => {
         </form>
       </div>
     </div>
-  );
-};
 
+    <Footer />
+
+  </div>
+);
+};
 export default Register;

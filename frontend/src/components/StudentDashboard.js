@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Footer from "./Footer";
+
 import { 
   FiBook, FiUsers, FiVideo, FiFileText, FiTrendingUp, 
   FiEye, FiXCircle, FiPlusCircle, FiChevronDown, FiChevronUp, FiClock, FiInbox, FiRefreshCw, FiCheck, FiAward
@@ -188,8 +190,11 @@ const StudentDashboard = () => {
     return aEnrolled ? -1 : 1;
   });
 
-  return (
-    <div className="container mx-auto px-4 py-8">
+ return (
+  <div className="flex flex-col min-h-screen">
+
+    <div className="flex-grow container mx-auto px-4 py-8">
+
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Welcome, {studentName}!</h1>
@@ -519,8 +524,12 @@ const StudentDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+        </div>
+
+    <Footer />
+
+  </div>
+);
 };
 
 export default StudentDashboard;

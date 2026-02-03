@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FiUser, FiUserPlus, FiTrash2, FiBook, FiUsers, FiEdit } from 'react-icons/fi';
+import Footer from "./Footer";
 
 // Common Components
 const Message = ({ type, children, onClose }) => (
@@ -123,8 +124,12 @@ const AdminDashboard = () => {
     setError('');
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-6">
+  
+ return (
+  <div className="flex flex-col min-h-screen bg-gray-100">
+
+    {/* Page Content */}
+    <div className="flex-grow p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 flex items-center">
           <FiUser className="mr-2 text-blue-500" />
@@ -142,7 +147,6 @@ const AdminDashboard = () => {
             {error}
           </Message>
         )}
-
         {/* Add New User Section */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <SectionHeader icon={<FiUserPlus className="text-green-500" />} title="Add New User" />
@@ -216,7 +220,7 @@ const AdminDashboard = () => {
             )}
             <button
               type="submit"
-              className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
             >
               Add User
             </button>
@@ -269,7 +273,11 @@ const AdminDashboard = () => {
 
         {/* Students Table */}
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <SectionHeader icon={<FiUsers className="text-orange-500" />} title="Students" />
+          <SectionHeader
+            icon={<FiUsers className="text-orange-500" />}
+            title="Students"
+          />
+
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead>
@@ -281,38 +289,49 @@ const AdminDashboard = () => {
                   <th className="py-3 px-4 text-left">Actions</th>
                 </tr>
               </thead>
+
               <tbody>
-  {students.map((student, index) => (
-    <tr key={student.id} className="border-b border-gray-200 hover:bg-gray-50">
-      <td className="py-3 px-4">{index + 1}</td>
+                {students.map((student, index) => (
+                  <tr
+                    key={student.id}
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                  >
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4">{student.name}</td>
+                    <td className="py-3 px-4">{student.username}</td>
 
-      <td className="py-3 px-4">{student.name}</td>
-      <td className="py-3 px-4">{student.username}</td>
+                    <td className="py-3 px-4">
+                      {student.courses
+                        ? JSON.parse(student.courses)
+                            .map((c) => c.title)
+                            .join(", ")
+                        : "No courses"}
+                    </td>
 
-      <td className="py-3 px-4">
-        {student.courses
-          ? JSON.parse(student.courses).map((c) => c.title).join(", ")
-          : "No courses"}
-      </td>
-
-      <td className="py-3 px-4">
-        <button
-          onClick={() => deleteUser(student.id)}  // keep real DB id here
-          className="text-red-500 hover:text-red-700 flex items-center"
-        >
-          <FiTrash2 className="mr-1" /> Delete
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => deleteUser(student.id)}
+                        className="text-red-500 hover:text-red-700 flex items-center"
+                      >
+                        <FiTrash2 className="mr-1" /> Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
 
             </table>
           </div>
         </div>
+
       </div>
     </div>
-  );
+
+    {/* Footer stays at bottom */}
+    <Footer />
+
+  </div>
+);
 };
 
 export default AdminDashboard;

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { pdfjs } from 'react-pdf';
+import Footer from "./Footer";
+
 import {
   FiVideo,
   FiFileText,
@@ -233,8 +235,11 @@ const CourseDetails = () => {
   if (error) return <div className="p-8 text-red-600">{error}</div>;
   if (!course) return <div className="p-8">Course not found</div>;
 
-  return (
-    <div className="container mx-auto px-4 py-8">
+return (
+  <div className="flex flex-col min-h-screen">
+
+    <div className="flex-grow container mx-auto px-4 py-8">
+
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 flex justify-between items-center">
           <button
@@ -549,8 +554,11 @@ const CourseDetails = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+        </div>
 
+    <Footer />
+
+  </div>
+);
+}
 export default CourseDetails;

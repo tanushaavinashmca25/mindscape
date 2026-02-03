@@ -32,7 +32,11 @@ const videoStorage = multer.diskStorage({
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
-const videoUpload = multer({ storage: videoStorage });
+const videoUpload = multer({
+  storage: videoStorage,
+  limits: { fileSize: 500 * 1024 * 1024 } // 500MB
+});
+
 
 // Set up Multer storage for note uploads
 const noteStorage = multer.diskStorage({
@@ -82,6 +86,7 @@ router.post('/courses/:courseId/lecture', verifyToken, isTeacher, videoUpload.si
     }
   );
 });
+
 
 // Upload a note (document)
 router.post('/courses/:courseId/note', verifyToken, isTeacher, noteUpload.single('note'), (req, res) => {

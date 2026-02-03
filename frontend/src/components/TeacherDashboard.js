@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Footer from "./Footer";
+
 import {
   FiUploadCloud,
   FiVideo,
@@ -169,7 +171,7 @@ const UploadSection = ({ courseId, onUploaded }) => {
         {/* Note Upload */}
         <div className="bg-gray-50 p-5 rounded-lg">
           <h3 className="font-medium mb-4 flex items-center">
-            <FiFileText className="mr-2 text-green-500" /> Upload Note
+            <FiFileText className="mr-2 text-blue-500" /> Upload Note
           </h3>
 
           <form onSubmit={handleNoteUpload} className="space-y-3">
@@ -203,7 +205,7 @@ const UploadSection = ({ courseId, onUploaded }) => {
 
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
               disabled={isLoading}
             >
               {isLoading ? 'Uploading...' : 'Upload Note'}
@@ -469,8 +471,11 @@ const TeacherDashboard = () => {
     setError('');
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-6">
+ return (
+  <div className="flex flex-col min-h-screen bg-gray-100">
+
+    <div className="flex-grow p-6">
+
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 flex items-center">
           <FiBook className="mr-2 text-blue-500" />
@@ -505,9 +510,7 @@ const TeacherDashboard = () => {
                       }`}
                     >
                       <h3 className="font-medium text-gray-800">{course.title}</h3>
-                      <p className="text-sm text-gray-500">
-                        {course.studentCount || 0} students
-                      </p>
+                      
 
                       {pendingCount > 0 && (
                         <span className="absolute top-2 right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -687,8 +690,13 @@ const TeacherDashboard = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+        </div>
+
+    <Footer />
+
+  </div>
+);
+
 };
 
 export default TeacherDashboard;

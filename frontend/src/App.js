@@ -9,6 +9,7 @@ import StudentDashboard from './components/StudentDashboard';
 import AdminDashboard from './components/AdminDashboard';
 
 import CourseDetails from './components/CourseDetails';
+import Contact from "./components/Contact";
 
 import Navbar from './components/Navbar';
 import { PomodoroProvider } from './components/PomodoroContext';
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login setAuthToken={setAuthToken} setRole={setRole} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/contact" element={<Contact />} />
 
           {/* Teacher */}
           {authToken && role === 'teacher' && (
@@ -48,6 +50,7 @@ function App() {
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </PomodoroProvider>
+
     </div>
   );
 }
