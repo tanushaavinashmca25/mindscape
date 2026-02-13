@@ -115,7 +115,7 @@ const Login = ({ setAuthToken, setRole }) => {
 
         <div className="md:w-1/2 flex justify-center mt-10 md:mt-0">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+            src="https://img.freepik.com/premium-vector/vector-human-sitting-front-laptop-office-work-illustration_990473-3358.jpg"
             className="w-80 hover:scale-105 transition duration-500"
             alt="Learning"
           />
