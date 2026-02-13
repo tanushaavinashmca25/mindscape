@@ -6,7 +6,6 @@ import Message from './Message';
 import logo from "../logo.png";
 import Footer from "./Footer";
 
-
 const Login = ({ setAuthToken, setRole }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -46,41 +45,39 @@ const Login = ({ setAuthToken, setRole }) => {
   };
 
   return (
-  <div className="w-full">
+    <div className="w-full overflow-x-hidden">
 
-    {/* ===== TOP NAVBAR ===== */}
-    <header className="w-full bg-blue-200 shadow-sm fixed top-0 left-0 z-50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      {/* ===== NAVBAR ===== */}
+      <header className="w-full bg-white/70 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <img src={logo} alt="Mindscape Logo" className="h-12 w-12 rounded-full object-contain" />
+            <h1 className="text-2xl font-bold text-blue-600">
+              MINDSCAPE
+            </h1>
+          </div>
 
-        <div className="flex items-center space-x-2">
-          <img src={logo} alt="Mindscape Logo" className="h-12 w-12 rounded-full object-contain" />
-          <h1 className="text-2xl font-bold text-blue-600">
-            MINDSCAPE
-          </h1>
+          <button
+            onClick={() =>
+              document
+                .getElementById("loginSection")
+                .scrollIntoView({ behavior: "smooth" })
+            }
+            className="bg-blue-600 text-white px-6 py-2 rounded-full hover:scale-105 hover:bg-blue-700 transition duration-300"
+          >
+            LOGIN
+          </button>
         </div>
-
-        <button
-          onClick={() =>
-            document
-              .getElementById("loginSection")
-              .scrollIntoView({ behavior: "smooth" })
-          }
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          LOGIN
-        </button>
-
-      </div>
-    </header>
+      </header>
 
       {/* ===== HERO SECTION ===== */}
-      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 p-10">
+      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-indigo-200 p-10 pt-32">
         <div className="md:w-1/2 text-center md:text-left">
-          <h1 className="text-5xl font-bold mb-6 text-blue-600">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 text-blue-700 leading-tight">
             Learn smarter with Mindscape
           </h1>
-          <p className="text-lg text-gray-600 mb-6">
-            Free. Fun. Effective learning platform for students.
+          <p className="text-lg text-gray-700 mb-6">
+            Free. Fun. Effective learning platform designed to help students grow.
           </p>
 
           <button
@@ -89,146 +86,150 @@ const Login = ({ setAuthToken, setRole }) => {
                 .getElementById("loginSection")
                 .scrollIntoView({ behavior: "smooth" })
             }
-            className="bg-blue-600 text-white px-8 py-3 rounded-lg"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-full hover:scale-105 hover:shadow-lg transition duration-300"
           >
             Get Started
           </button>
         </div>
 
-        <div className="md:w-1/2 flex justify-center">
+        <div className="md:w-1/2 flex justify-center mt-10 md:mt-0">
           <img
-            src="https://media.istockphoto.com/id/1171913244/vector/woman-with-laptop-education-or-working-concept-table-with-books-lamp-coffee-cup-vector.jpg?s=612x612&w=0&k=20&c=7e12Gv9QRyJxBiJMPuxtpgjnMNIuhWYWUBf_yGadCuU="
-            className="rounded-xl shadow-lg w-96"
+            src="https://media.istockphoto.com/id/1171913244/vector/woman-with-laptop-education-or-working-concept-table-with-books-lamp-coffee-cup-vector.jpg"
+            className="rounded-2xl shadow-2xl w-96 hover:scale-105 transition duration-500"
             alt="Learning"
           />
         </div>
       </section>
 
       {/* ===== FEATURES SECTION ===== */}
-      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center p-10">
+      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center p-10 bg-white">
         <div className="md:w-1/2">
           <h2 className="text-4xl font-bold text-blue-600 mb-4">
             Free. Fun. Effective.
           </h2>
-          <p className="text-gray-600">
-            Build strong study habits, access learning resources anytime, and track your progress in one unified learning space.
+          <p className="text-gray-600 text-lg">
+            Build strong study habits, access learning resources anytime,
+            and track your progress in one unified learning space.
           </p>
         </div>
 
-        <div className="md:w-1/2 flex justify-center">
+        <div className="md:w-1/2 flex justify-center mt-10 md:mt-0">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
-            className="w-80"
+            className="w-80 hover:scale-105 transition duration-500"
             alt="Learning"
           />
         </div>
       </section>
 
       {/* ===== SCIENCE SECTION ===== */}
-      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gray-100 p-10">
+      <section className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-indigo-100 to-blue-200 p-10">
         <div className="md:w-1/2 flex justify-center">
           <img
             src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-            className="w-80"
+            className="w-80 hover:scale-105 transition duration-500"
             alt="Science"
           />
         </div>
 
-        <div className="md:w-1/2">
-          <h2 className="text-4xl font-bold text-blue-600 mb-4">
+        <div className="md:w-1/2 mt-10 md:mt-0">
+          <h2 className="text-4xl font-bold text-blue-700 mb-4">
             See you inside!
           </h2>
-          <p className="text-gray-600">
-            Start your learning journey today with Mindscape. Explore courses, stay consistent, and achieve your academic goals with a platform designed to support your success.
-            </p>
+          <p className="text-gray-700 text-lg">
+            Start your learning journey today with Mindscape.
+            Explore courses, stay consistent, and achieve your academic goals.
+          </p>
         </div>
       </section>
-{/* ===== LOGIN SECTION ===== */}
-<section
-  id="loginSection"
-  className="min-h-screen flex items-center justify-center bg-gray-100 p-6"
->
-  <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
 
-    <div className="text-center mb-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">
-        Welcome
-      </h1>
-      <p className="text-gray-600">Sign in to continue</p>
-    </div>
-
-    {successMessage && (
-      <Message type="success" onClose={() => setSuccessMessage('')}>
-        {successMessage}
-      </Message>
-    )}
-
-    {error && (
-      <Message type="error" onClose={() => setError('')}>
-        {error}
-      </Message>
-    )}
-
-    <form onSubmit={handleLogin} className="space-y-6">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Username
-        </label>
-        <div className="relative">
-          <FiUser className="absolute top-4 left-3 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Enter username"
-            className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Password
-        </label>
-        <div className="relative">
-          <FiLock className="absolute top-4 left-3 text-gray-400" />
-          <input
-            type="password"
-            placeholder="Enter password"
-            className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            value={password}
-           
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
+      {/* ===== LOGIN SECTION ===== */}
+      <section
+        id="loginSection"
+        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-indigo-200 to-purple-200 p-6"
       >
-        <FiLogIn className="mr-2" />
-        Sign In
-      </button>
+        <div className="bg-white/80 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl p-10 w-full max-w-md transition transform hover:scale-[1.01]">
 
-      <p className="text-center text-gray-600 mt-6">
-        Don't have an account?{' '}
-        <a
-          href="/register"
-          className="text-blue-600 hover:text-blue-700 font-medium"
-        >
-          Create account
-        </a>
-      </p>
-    </form>
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              Welcome Back
+            </h1>
+            <p className="text-gray-600">Sign in to continue</p>
+          </div>
 
-  </div>
-</section>
-<Footer />
+          {successMessage && (
+            <Message type="success" onClose={() => setSuccessMessage('')}>
+              {successMessage}
+            </Message>
+          )}
 
-  </div>
+          {error && (
+            <Message type="error" onClose={() => setError('')}>
+              {error}
+            </Message>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-6">
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Username
+              </label>
+              <div className="relative">
+                <FiUser className="absolute top-4 left-3 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Enter username"
+                  className="w-full pl-10 pr-4 py-3 border rounded-lg bg-white/60 focus:ring-2 focus:ring-blue-500 transition"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <FiLock className="absolute top-4 left-3 text-gray-400" />
+                <input
+                  type="password"
+                  placeholder="Enter password"
+                  className="w-full pl-10 pr-4 py-3 border rounded-lg bg-white/60 focus:ring-2 focus:ring-blue-500 transition"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-full hover:scale-105 hover:shadow-lg transition duration-300 flex items-center justify-center font-semibold"
+            >
+              <FiLogIn className="mr-2" />
+              Sign In
+            </button>
+
+            <p className="text-center text-gray-600 mt-6">
+              Don't have an account?{' '}
+              <a
+                href="/register"
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Create account
+              </a>
+            </p>
+
+          </form>
+        </div>
+      </section>
+
+      <Footer />
+
+    </div>
   );
 };
 
