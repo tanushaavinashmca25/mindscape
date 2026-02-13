@@ -94,7 +94,7 @@ const Login = ({ setAuthToken, setRole }) => {
 
         <div className="md:w-1/2 flex justify-center mt-10 md:mt-0">
           <img
-            src="https://media.istockphoto.com/id/1171913244/vector/woman-with-laptop-education-or-working-concept-table-with-books-lamp-coffee-cup-vector.jpg"
+            src="https://media.istockphoto.com/id/1188816693/vector/young-teenage-woman-uses-laptop-for-work-or-chatting-with-friends.jpg?s=612x612&w=0&k=20&c=FRUajWyXnGV6UshCz72GDz4ImV0BrU9VTXoFvdRz6U4="
             className="rounded-2xl shadow-2xl w-96 hover:scale-105 transition duration-500"
             alt="Learning"
           />
